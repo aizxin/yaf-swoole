@@ -19,6 +19,8 @@ namespace swf\swoole;
  */
 
 use Hyperf\Event\EventDispatcher;
+use Hyperf\Framework\Bootstrap\FinishCallback;
+use Hyperf\Framework\Bootstrap\TaskCallback;
 use Hyperf\Framework\Event\BeforeMainServerStart;
 use Hyperf\Utils\ApplicationContext;
 use Swoole\Runtime;
@@ -34,6 +36,7 @@ class Http extends Server
     protected $lastMtime;
     protected $config = [];
     protected $yafApp;
+    protected $container;
 
     /**
      * 架构函数
@@ -41,6 +44,7 @@ class Http extends Server
      */
     public function __construct($config = [])
     {
+        $this->container = ApplicationContext::getContainer();
         $this->config = $config;
     }
 
@@ -51,8 +55,9 @@ class Http extends Server
      */
     public function setConfig($config = [])
     {
-        $this->config = array_merge($this->config,$config);
-        $this->option = array_merge($this->option,$this->config['swoole']);
+        $this->config = array_merge($this->config, $config);
+        $this->option = array_merge($this->option, $this->config['swoole']);
+
         return $this;
     }
 
@@ -64,9 +69,11 @@ class Http extends Server
     {
         $this->run();
         Registry::set('swoole', $this->swoole);
+        $this->serverListener();
+
         return $this->swoole;
     }
-    
+
     private function run()
     {
         $host = $this->option['host'] ?? $this->host;
@@ -83,23 +90,22 @@ class Http extends Server
         $this->setOption($this->option);
 
         // 开启 协程
-        if ($this->option['enable_coroutine'] ?? false){
+        if ($this->option['enable_coroutine'] ?? false) {
             Runtime::enableCoroutine(true);
         }
-        $this->serverListener();
     }
 
     private function setOption($option = [])
     {
         // 设置参数
-        if (!empty($option)) {
+        if ( ! empty($option)) {
             $this->swoole->set($option);
         }
 
         foreach ($this->event as $event) {
             // 自定义回调
-            if (!empty($option[$event])) {
-                $this->swoole->on($event, $option[$event]);
+            if ( ! empty($option[ $event ])) {
+                $this->swoole->on($event, $option[ $event ]);
             } elseif (method_exists($this, 'on' . $event)) {
                 $this->swoole->on($event, [$this, 'on' . $event]);
             }
@@ -109,7 +115,8 @@ class Http extends Server
     /**
      * @param $server
      */
-    public function onStart($server) {
+    public function onStart($server)
+    {
         @swoole_set_process_name("swf-server");
     }
 
@@ -128,6 +135,7 @@ class Http extends Server
 
     /**
      * peceive回调
+     *
      * @param $server
      * @param $fd
      * @param $reactor_id
@@ -138,16 +146,17 @@ class Http extends Server
 
     }
 
-    
+
     /**
      * request回调
+     *
      * @param $request
      * @param $response
      */
     public function onRequest($request, $response)
     {
         //请求过滤,会请求2次
-        if(in_array('/favicon.ico', [$request->server['path_info'],$request->server['request_uri']])){
+        if (in_array('/favicon.ico', [$request->server['path_info'], $request->server['request_uri']])) {
             return $response->end();
         }
 
@@ -155,11 +164,11 @@ class Http extends Server
         Registry::set('response', $response);
 
         ob_start();
-        $yafRequest = new YafHttp($request->server['request_uri'],'/');
+        $yafRequest = new YafHttp($request->server['request_uri'], '/');
 
         try {
             $this->yafApp->getDispatcher()->dispatch($yafRequest);
-        } catch (\Yaf\Exception $e ) {
+        } catch (\Yaf\Exception $e) {
             $this->errorException($e);
         } catch (\Exception $e) {
             $this->errorException($e);
@@ -177,6 +186,7 @@ class Http extends Server
 
     /**
      * onOpen回调
+     *
      * @param $server
      * @param $frame
      */
@@ -187,6 +197,7 @@ class Http extends Server
 
     /**
      * Message回调
+     *
      * @param $server
      * @param $frame
      */
@@ -197,6 +208,7 @@ class Http extends Server
 
     /**
      * Close回调
+     *
      * @param $server
      * @param $frame
      */
@@ -207,26 +219,29 @@ class Http extends Server
 
     /**
      * 任务投递
+     *
      * @param HttpServer $serv
-     * @param $task_id
-     * @param $fromWorkerId
-     * @param $data
+     * @param            $task_id
+     * @param            $fromWorkerId
+     * @param            $data
+     *
      * @return mixed|null
      */
-    public function onTask(SwooleServer $serv, $task)
+    public function onTask(SwooleServer $serv, $taskId, $srcWorkerId, $data)
     {
-
+        $this->container->get(TaskCallback::class)->onTask($serv,$taskId, $srcWorkerId, $data);
     }
 
     /**
      * 任务结束，如果有自定义任务结束回调方法则不会触发该方法
+     *
      * @param HttpServer $serv
-     * @param $task_id
-     * @param $data
+     * @param            $task_id
+     * @param            $data
      */
     public function onFinish(SwooleServer $serv, $task_id, $data)
     {
-
+        $this->container->get(FinishCallback::class)->onFinish($serv,$task_id, $data);
     }
 
     /**
@@ -242,6 +257,7 @@ class Http extends Server
 
     /**
      * 错误 处理
+     *
      * @param $e
      *
      * @author: kong | <iwhero@yeah.com>
@@ -250,7 +266,7 @@ class Http extends Server
     private function errorException($e)
     {
         $request = new YafHttp('error/error', '/');
-        $request->setParam('error',$e);
+        $request->setParam('error', $e);
         $this->yafApp->getDispatcher()->dispatch($request);
     }
 
@@ -261,8 +277,7 @@ class Http extends Server
      */
     protected function serverListener()
     {
-        $container = ApplicationContext::getContainer();
-        $container->get(EventDispatcher::class)->dispatch(new BeforeMainServerStart($this->swoole,[]));
+        $this->container->get(EventDispatcher::class)->dispatch(new BeforeMainServerStart($this->swoole, []));
 
     }
 }

@@ -1,0 +1,32 @@
+{
+    "name": "kong/yaf-swoole",
+    "description": "Swoole for Yaf",
+    "authors": [
+        {
+            "name": "aizxin",
+            "email": "aizxin@gmail.com"
+        }
+    ],
+    "require": {
+        "hyperf/config": "^1.0",
+        "hyperf/db-connection": "^1.0",
+        "hyperf/logger": "^1.0",
+        "hyperf/redis": "^1.0",
+        "hyperf/process": "^1.0",
+        "hyperf/task": "^1.0",
+        "hyperf/model-cache": "^1.0",
+        "hyperf/view": "^1.0",
+        "hyperf/async-queue": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "swf\\": "app/http/"
+        }
+    },
+    "repositories": {
+        "packagist": {
+            "type": "composer",
+            "url": "https://mirrors.aliyun.com/composer/"
+        }
+    }
+}

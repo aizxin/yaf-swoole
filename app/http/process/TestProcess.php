@@ -25,7 +25,7 @@ class TestProcess extends AbstractProcess
     /**
      * @var int
      */
-    public $nums = 1;
+    public $nums = 2;
 
     public function handle(): void
     {

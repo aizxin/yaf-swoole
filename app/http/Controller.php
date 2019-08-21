@@ -14,6 +14,7 @@ use \Hyperf\Utils\ApplicationContext;
 use \Hyperf\Redis\Redis;
 use \Hyperf\Task\TaskExecutor;
 use \Hyperf\AsyncQueue\Driver\DriverFactory;
+use Hyperf\Amqp\Producer;
 
 class Controller extends \Yaf\Controller_Abstract
 {
@@ -21,6 +22,7 @@ class Controller extends \Yaf\Controller_Abstract
     protected $redis;
     protected $task;
     protected $job;
+    protected $amqp;
 
     public function init()
     {
@@ -28,5 +30,6 @@ class Controller extends \Yaf\Controller_Abstract
         $this->redis = $this->container->get(Redis::class);
         $this->task = $this->container->get(TaskExecutor::class);
         $this->job = $this->container->get(DriverFactory::class)->get('default');
+        $this->amqp = $this->container->get(Producer::class);
     }
 }

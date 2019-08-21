@@ -246,7 +246,6 @@ class Http extends Server
 
     /**
      * @author: kong | <iwhero@yeah.com>
-     * @date  : 2019-07-03 10:19
      */
     private function initYafApp()
     {
@@ -261,19 +260,17 @@ class Http extends Server
      * @param $e
      *
      * @author: kong | <iwhero@yeah.com>
-     * @date  : 2019-07-02 22:17
      */
     private function errorException($e)
     {
         $request = new YafHttp('error/error', '/');
-        $request->setParam('error', $e);
+        $request->setParam('error', $e->getMessage());
         $this->yafApp->getDispatcher()->dispatch($request);
     }
 
     /**
      * 监听
      * @author: kong | <iwhero@yeah.com>
-     * @date  : 2019-08-20 23:33
      */
     protected function serverListener()
     {

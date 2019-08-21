@@ -4,7 +4,7 @@
 define('BASE_PATH', realpath(getcwd()));
 
 
-require BASE_PATH.'/vendor/autoload.php';
+require BASE_PATH . '/vendor/autoload.php';
 
 use swf\swoole\Swf;
 use Yaf\Config\Ini;
@@ -12,7 +12,7 @@ use Yaf\Config\Ini;
 //错误信息将写入swoole日志中
 date_default_timezone_set('Asia/Shanghai');
 
-$config = (new Ini(BASE_PATH . "/config/application.ini",ini_get('yaf.environ')))->toArray();
+$config = (new Ini(BASE_PATH . "/config/application.ini", ini_get('yaf.environ')))->toArray();
 
 use Hyperf\Config\ProviderConfig;
 use Hyperf\Di\Annotation\Scanner;
@@ -23,9 +23,17 @@ use Hyperf\Utils\ApplicationContext;
 $configFromProviders = ProviderConfig::load();
 $serverDependencies = $configFromProviders['dependencies'] ?? [];
 
-$container = new Container(new DefinitionSource($serverDependencies, [], new Scanner()));
+$annotations = include BASE_PATH . '/config/autoload/annotations.php';
 
-if (! $container instanceof \Psr\Container\ContainerInterface) {
+//$scanDirs = $annotations['scan']['paths'] ?? [];
+
+$scanDirs = $configFromProviders['scan']['paths'];
+$scanDirs = array_merge($scanDirs, $annotations['scan']['paths'] ?? []);
+
+
+$container = new Container(new DefinitionSource($serverDependencies, $scanDirs, new Scanner(), true));
+
+if ( ! $container instanceof \Psr\Container\ContainerInterface) {
     throw new RuntimeException('The dependency injection container is invalid.');
 }
 

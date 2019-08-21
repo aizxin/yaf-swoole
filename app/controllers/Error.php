@@ -9,6 +9,6 @@ class ErrorController extends Controller {
 
 	//从2.1开始, errorAction支持直接通过参数获取异常
 	public function errorAction() {
-		var_dump('1234567');
+	    var_dump($this->getRequest()->getParam('error'));
 	}
 }

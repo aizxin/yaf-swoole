@@ -153,7 +153,6 @@ class Swf
      *
      * @return bool|mixed
      * @author: kong | <iwhero@yeah.com>
-     * @date  : 2019-06-30 00:47
      */
     protected function isRunning($pid)
     {

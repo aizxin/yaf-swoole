@@ -10,6 +10,7 @@ use Hyperf\Utils\Coroutine;
 use Hyperf\Task\Task;
 use swf\task\TestTask;
 use swf\job\ExampleJob;
+use swf\amqp\DemoProducer;
 
 class IndexController extends Controller
 {
@@ -28,6 +29,8 @@ class IndexController extends Controller
 
         $this->job->push(make(ExampleJob::class,$params));
         $this->job->push(make(ExampleJob::class,$params), 5);
+
+        $this->amqp->produce(new DemoProducer(1));
         /* 自己输出响应 */
 //        return $this->response->write($this->render("index"));
     }

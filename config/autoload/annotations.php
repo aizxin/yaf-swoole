@@ -11,6 +11,12 @@ declare(strict_types=1);
  */
 
 return [
-//    \Hyperf\Process\Listener\BootProcessListener::class, //  监听 进程
-//    \Hyperf\Amqp\Listener\BeforeMainServerStartListener::class // 监听 amqp
+    'scan' => [
+        'paths' => [
+            BASE_PATH . '/app',
+        ],
+        'ignore_annotations' => [
+            'mixin',
+        ],
+    ],
 ];

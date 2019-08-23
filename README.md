@@ -1,11 +1,10 @@
 # yaf-swoole
 
-```
-  应用 hyperf 许多的 协程组件库
+  - 应用 hyperf 许多的 协程组件库
   - 详细用法参考[这里](https://doc.hyperf.io/#/zh/awesome-components)
 
   - 模板使用：[vueBlog-template](https://github.com/uncleLian/vueBlog-template)
-```
+
 
 ## 开发和发布
 ```bash

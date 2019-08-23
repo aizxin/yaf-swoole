@@ -70,7 +70,7 @@ class Http extends Server
         $this->run();
         Registry::set('swoole', $this->swoole);
         $this->serverListener();
-
+        $this->initYafApp();
         return $this->swoole;
     }
 
@@ -129,7 +129,6 @@ class Http extends Server
     public function onWorkerStart($server, $worker_id)
     {
         $this->lastMtime = time();
-        $this->initYafApp();
     }
 
 
@@ -164,7 +163,10 @@ class Http extends Server
         Registry::set('response', $response);
 
         ob_start();
-        $yafRequest = new YafHttp($request->server['request_uri'], '/');
+        //$yafRequest = new YafHttp($request->server['request_uri'], '/');
+
+        $yafRequest = new \Yaf\Request\Simple("CLI");
+        $yafRequest->setRequestUri($request->server['request_uri']);
 
         try {
             $this->yafApp->getDispatcher()->dispatch($yafRequest);
@@ -229,7 +231,7 @@ class Http extends Server
      */
     public function onTask(SwooleServer $serv, $taskId, $srcWorkerId, $data)
     {
-        $this->container->get(TaskCallback::class)->onTask($serv,$taskId, $srcWorkerId, $data);
+        $this->container->get(TaskCallback::class)->onTask($serv, $taskId, $srcWorkerId, $data);
     }
 
     /**
@@ -241,7 +243,7 @@ class Http extends Server
      */
     public function onFinish(SwooleServer $serv, $task_id, $data)
     {
-        $this->container->get(FinishCallback::class)->onFinish($serv,$task_id, $data);
+        $this->container->get(FinishCallback::class)->onFinish($serv, $task_id, $data);
     }
 
     /**
@@ -251,7 +253,6 @@ class Http extends Server
     {
         $this->yafApp = new \Yaf\Application($this->config);
         $this->yafApp->bootstrap();
-
     }
 
     /**
@@ -275,6 +276,5 @@ class Http extends Server
     protected function serverListener()
     {
         $this->container->get(EventDispatcher::class)->dispatch(new BeforeMainServerStart($this->swoole, []));
-
     }
 }

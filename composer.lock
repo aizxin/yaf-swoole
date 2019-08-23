@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7997d0243ffe46536a1bed4be40172d4",
+    "content-hash": "eef7222e21c8b34d4f064fb2ea3dca99",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -988,16 +988,16 @@
         },
         {
             "name": "hyperf/logger",
-            "version": "v1.0.9",
+            "version": "v1.0.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hyperf-cloud/logger.git",
-                "reference": "1898aff7983b6c3d60289dab875874a140cd3f19"
+                "reference": "2dd067626ff85fa675950b928f33e284f57369b1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf-cloud/logger/zipball/1898aff7983b6c3d60289dab875874a140cd3f19",
-                "reference": "1898aff7983b6c3d60289dab875874a140cd3f19",
+                "url": "https://api.github.com/repos/hyperf-cloud/logger/zipball/2dd067626ff85fa675950b928f33e284f57369b1",
+                "reference": "2dd067626ff85fa675950b928f33e284f57369b1",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -1044,7 +1044,7 @@
                 "logger",
                 "php"
             ],
-            "time": "2019-08-02T01:57:05+00:00"
+            "time": "2019-08-17T15:03:12+00:00"
         },
         {
             "name": "hyperf/model-cache",
@@ -1430,16 +1430,16 @@
         },
         {
             "name": "hyperf/utils",
-            "version": "v1.0.11",
+            "version": "v1.0.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hyperf-cloud/utils.git",
-                "reference": "c5171d7fb6db33f44e58ff4ee6a6bd0e69722f82"
+                "reference": "8d91a428693d06fb8d27d22484243c46993c1c75"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hyperf-cloud/utils/zipball/c5171d7fb6db33f44e58ff4ee6a6bd0e69722f82",
-                "reference": "c5171d7fb6db33f44e58ff4ee6a6bd0e69722f82",
+                "url": "https://api.github.com/repos/hyperf-cloud/utils/zipball/8d91a428693d06fb8d27d22484243c46993c1c75",
+                "reference": "8d91a428693d06fb8d27d22484243c46993c1c75",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -1495,7 +1495,7 @@
                 "swoole",
                 "utils"
             ],
-            "time": "2019-08-14T02:58:32+00:00"
+            "time": "2019-08-16T01:46:03+00:00"
         },
         {
             "name": "hyperf/view",
@@ -2762,6 +2762,49 @@
                 "standards"
             ],
             "time": "2019-06-13T11:15:36+00:00"
+        },
+        {
+            "name": "topthink/think-template",
+            "version": "v2.0.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/top-think/think-template.git",
+                "reference": "3fb2741d6921475d980d987130cf8780c99c994c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/top-think/think-template/zipball/3fb2741d6921475d980d987130cf8780c99c994c",
+                "reference": "3fb2741d6921475d980d987130cf8780c99c994c",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "php": ">=7.1.0",
+                "psr/simple-cache": "^1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "think\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "liu21st",
+                    "email": "liu21st@gmail.com"
+                }
+            ],
+            "description": "the php template engine",
+            "time": "2019-07-30T06:29:57+00:00"
         },
         {
             "name": "vlucas/phpdotenv",

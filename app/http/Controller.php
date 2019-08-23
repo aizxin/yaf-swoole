@@ -15,6 +15,7 @@ use \Hyperf\Redis\Redis;
 use \Hyperf\Task\TaskExecutor;
 use \Hyperf\AsyncQueue\Driver\DriverFactory;
 use Hyperf\Amqp\Producer;
+use swf\view\YafRender;
 
 class Controller extends \Yaf\Controller_Abstract
 {
@@ -23,13 +24,15 @@ class Controller extends \Yaf\Controller_Abstract
     protected $task;
     protected $job;
     protected $amqp;
+    protected $view;
 
     public function init()
     {
-        $this->container = ApplicationContext::getContainer();
-        $this->redis = $this->container->get(Redis::class);
-        $this->task = $this->container->get(TaskExecutor::class);
-        $this->job = $this->container->get(DriverFactory::class)->get('default');
-        $this->amqp = $this->container->get(Producer::class);
+//        $this->container = ApplicationContext::getContainer();
+//        $this->redis = $this->container->get(Redis::class);
+//        $this->task = $this->container->get(TaskExecutor::class);
+//        $this->job = $this->container->get(DriverFactory::class)->get('default');
+//        $this->amqp = $this->container->get(Producer::class);
+//        $this->view = $this->container->get(YafRender::class);
     }
 }

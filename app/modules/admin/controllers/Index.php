@@ -40,9 +40,12 @@ class IndexController extends Controller
 
 //        $trg = $this->view->render('index/index.html');
 
+//        var_dump();
 //        var_dump(\Yaf\Application::app()->getDispatcher()->getRouter());
 
-        var_dump('12345');
+//        print_r($this->getRequest());
+        var_dump('admin');
+        return false;
         /* 自己输出响应 */
 //        return $this->response->write($this->render("index"));
     }

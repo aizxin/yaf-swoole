@@ -38,14 +38,13 @@ class IndexController extends Controller
 ////        ));
 ///
 
-//        $trg = $this->view->render('index/index.html');
+        $trg = $this->view->render('index/index.html');
 
 //        var_dump();
 //        var_dump(\Yaf\Application::app()->getDispatcher()->getRouter());
 
 //        print_r($this->getRequest());
-        var_dump('admin');
-        return false;
+        var_dump($trg);
         /* 自己输出响应 */
 //        return $this->response->write($this->render("index"));
     }

@@ -42,9 +42,23 @@ class IndexController extends Controller
 
 //        var_dump(\Yaf\Application::app()->getDispatcher()->getRouter());
 
-        var_dump('12345');
+        var_dump($this->getRequest()->getModuleName());
+
+        var_dump($this->getRequest()->getControllerName());
+
+        var_dump($this->getRequest()->getActionName());
+
+        var_dump($this->getRequest()->getRequestUri());
+
+        var_dump($this->getRequest()->getException());
+        var_dump('index');
         /* 自己输出响应 */
 //        return $this->response->write($this->render("index"));
+    }
+
+    public function testAction()
+    {
+        var_dump('test');
     }
 
 }

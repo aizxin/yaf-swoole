@@ -67,10 +67,11 @@ class Http extends Server
      */
     public function getSwoole()
     {
+        $this->initYafApp();
         $this->run();
         Registry::set('swoole', $this->swoole);
         $this->serverListener();
-        $this->initYafApp();
+
         return $this->swoole;
     }
 
@@ -159,14 +160,30 @@ class Http extends Server
             return $response->end();
         }
 
+        // add Header
+//        $response->header('Content-Type', 'application/json; charset=utf-8');
+//        $response->header('Access-Control-Allow-Origin', '*');
+//        $response->header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+//        $response->header('Access-Control-Allow-Credentials', 'true');
+//        $response->header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
+//        if ($request->server['request_method'] === 'OPTIONS') {
+//            return $response->end();
+//        }
+
         Registry::set('request', $request);
         Registry::set('response', $response);
 
-        ob_start();
-        //$yafRequest = new YafHttp($request->server['request_uri'], '/');
+        $uri = $request->server['request_uri'];
 
-        $yafRequest = new \Yaf\Request\Simple("CLI");
-        $yafRequest->setRequestUri($request->server['request_uri']);
+
+        $host = str_replace(':9501', '', $request->header['host']);//如果端口号是80，就不用要此句代码
+
+        ob_start();
+        $yafRequest = new YafHttp($uri);
+        $yafRequest->setBaseUri($host);
+
+//        $yafRequest = new \Yaf\Request\Simple("CLI");
+//        $yafRequest->setRequestUri($uri);
 
         try {
             $this->yafApp->getDispatcher()->dispatch($yafRequest);
@@ -179,8 +196,6 @@ class Http extends Server
         }
         $result = ob_get_contents();
         ob_end_clean();
-        // add Header
-        $response->header('Content-Type', 'application/json; charset=utf-8');
         // add cookies
         // set status
         $response->end($result);

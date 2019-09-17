@@ -2,7 +2,8 @@
 node_modules
 vendor
 runtime
-/dist
+
+public/dist
 
 # local env files
 .env.local

@@ -22,7 +22,30 @@ class Bootstrap extends \Yaf\Bootstrap_Abstract
      */
     public function _initRoute(\Yaf\Dispatcher $dispatcher)
     {
-        $dispatcher->registerPlugin(new RouterPlugin($dispatcher));
+//        $router = $dispatcher->getRouter();
+//
+//
+//        $router->addRoute("admin", new \Yaf\Route\Rewrite(
+//                "/admin",
+//                array(
+//                    "module"     => "Admin",
+//                    "controller" => "Index",
+//                    "action"     => "index",
+//                    "method"     => "CLI",
+//                )
+//            )
+//        );
+//
+//        $router->addRoute("authlogin", new \Yaf\Route\Rewrite(
+//                "/auth/login",
+//                array(
+//                    "module"     => "Admin",
+//                    "controller" => "Auth",
+//                    "action"     => "login",
+//                    "method"     => "CLI",
+//                )
+//            )
+//        );
     }
 
 }

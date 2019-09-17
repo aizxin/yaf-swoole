@@ -21,7 +21,7 @@ use Hyperf\Di\Definition\DefinitionSource;
 use Hyperf\Utils\ApplicationContext;
 
 $configFromProviders = ProviderConfig::load();
-$serverDependencies = $configFromProviders['dependencies'] ?? [];
+$serverDependencies =  [];
 
 $annotations = include BASE_PATH . '/config/autoload/annotations.php';
 
@@ -38,5 +38,8 @@ if ( ! $container instanceof \Psr\Container\ContainerInterface) {
 }
 
 ApplicationContext::setContainer($container);
+
+//var_dump($configFromProviders);
+
 
 (new Swf($config))->run($argv);

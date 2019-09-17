@@ -3,7 +3,7 @@
   - 多模块
      - 多模块下的控制器名，不能重名
      - 重名，重新安装yaf，参考[这里](https://blog.csdn.net/jrlapple/article/details/9341581)
-
+     ```
 ## 运用
   - 应用 hyperf 许多的 协程组件库
   - 详细用法参考[这里](https://doc.hyperf.io/#/zh/awesome-components)
